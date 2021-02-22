@@ -27,7 +27,8 @@ class PostController extends Controller
      */
     public function create()
     {
-       return view('dashboard.post.create');
+       return view('dashboard.post.create',['post' => new Post()]);
+
     }
 
     /**
@@ -48,9 +49,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Post $post)
     {
-        //
+        return view('dashboard.post.show',['post'=>$post]);
     }
 
     /**
@@ -59,9 +60,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Post $post)
     {
-        //
+        return view('dashboard.post.edit',['post'=>$post]);
     }
 
     /**
@@ -71,9 +72,10 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StorePostPost $request, Post $post)
     {
-        //
+        $post->update($request->validated());
+        return back()->with('Maquina','POST ACTUALIZADO CON ÉXITO');
     }
 
     /**
@@ -82,8 +84,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Post $post)
     {
-        //
+        $post->delete();
+        return back()->with('Maquina','TARGET ELIMINADO');
     }
 }

@@ -45,7 +45,13 @@
                 {{$post->updated_at->format('d-m-Y')}}
             </td>
             <td>
-                
+                <a href="{{route('post.show',$post->id)}}" class="btn btn-primary">Ver</a>
+                <a href="{{route('post.edit',$post->id)}}" class="btn btn-primary">Actualizar</a>
+                <form method="POST" action="{{route('post.destroy',$post->id)}}">
+                    @method('DELETE')
+                    @csrf
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                </form>
             </td>
         </tr>
         @endforeach
