@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\dashboard\PostController;
+use App\Http\Controllers\dashboard\CategoryController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,3 +34,4 @@ Route::prefix('admin')->group(function () {
 */
 
 Route::resource('dashboard/post', PostController::class);
+Route::resource('dashboard/category', CategoryController::class);
