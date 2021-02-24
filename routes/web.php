@@ -35,3 +35,5 @@ Route::prefix('admin')->group(function () {
 
 Route::resource('dashboard/post', PostController::class);
 Route::resource('dashboard/category', CategoryController::class);
+
+Route::post('dashboard/post/{post}/image',[PostController::class,'image'])->name('post.image');
