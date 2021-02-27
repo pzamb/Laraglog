@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\dashboard\PostController;
-use App\Http\Controllers\dashboard\CategoryController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\dashboard\PostController;
+use App\Http\Controllers\dashboard\UserController;
+use App\Http\Controllers\dashboard\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,5 +36,9 @@ Route::prefix('admin')->group(function () {
 
 Route::resource('dashboard/post', PostController::class);
 Route::resource('dashboard/category', CategoryController::class);
+Route::resource('dashboard/user', UserController::class);
 
 Route::post('dashboard/post/{post}/image',[PostController::class,'image'])->name('post.image');
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

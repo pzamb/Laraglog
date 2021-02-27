@@ -12,7 +12,7 @@
 <br>
 
 
-<form action="{{ route('post.image',$post) }}" method="POST" enctype="multipart/form-data">
+<form action="{{ route('post.image',$post->id) }}" method="POST" enctype="multipart/form-data">
     @csrf
     <div class="row">
         <div class="col">

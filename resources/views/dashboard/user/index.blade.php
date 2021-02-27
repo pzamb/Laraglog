@@ -2,7 +2,7 @@
 
 @section('content')
 
-<a class="btn btn-success mt-3 mb-3" href="{{route('post.create')}}">Crear</a>
+<a class="btn btn-success mt-3 mb-3" href="{{route('user.create')}}">Crear</a>
 <table class="table">
     <thead>
         <tr>
@@ -10,57 +10,59 @@
                 id
             </td>
             <td>
-                Título
+                Nombre
             </td>
             <td>
-                Categoría
+                Apellido
             </td>
             <td>
-                Posteado
+                Email
             </td>
             <td>
-                Creacion
+                Rol
             </td>
             <td>
-                Actualizacion
+                Actualizaciones
             </td>
             <td>
                 Acciones
             </td>
+
         </tr>
     </thead>
     <tbody>
-        @foreach ($posts as $post)
+        @foreach ($users as $user)
         <tr>
             <td>
-               {{$post->id}}
+               {{$user->name}}
             </td>
             <td>
-                {{$post->title}}
+                {{$user->surname}}
             </td>
             <td>
-                {{$post->category->title}}
+                {{$user->email}}
+             </td>
+             <td>
+                {{$user->rol->key}}
+             </td>
+            <td>
+                {{$user->created_at->format('d-m-Y')}}
             </td>
             <td>
-                {{$post->posted}}
+                {{$user->updated_at->format('d-m-Y')}}
             </td>
             <td>
-                {{$post->created_at->format('d-m-Y')}}
-            </td>
-            <td>
-                {{$post->updated_at->format('d-m-Y')}}
-            </td>
-            <td>
-                <a href="{{route('post.show',$post->id)}}" class="btn btn-primary">Ver</a>
-                <a href="{{route('post.edit',$post->id)}}" class="btn btn-primary">Actualizar</a>
-                <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" data-id="{{$post->id}}">Eliminar</button>
+                <a href="{{route('user.show',$user->id)}}" class="btn btn-primary">Ver</a>
+                <a href="{{route('user.edit',$user->id)}}" class="btn btn-primary">Actualizar</a>
+                <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" data-id="{{$user->id}}">Eliminar</button>
             </td>
         </tr>
         @endforeach
     </tbody>
 </table>
 
-{{$posts->links()}}
+
+{{$users->links()}}
 
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -76,7 +78,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-          <form id="formDelete" method="POST" action="{{route('post.destroy',0)}}" data-action="{{route('post.destroy',0)}}">
+          <form id="formDelete" method="POST" action="{{route('user.destroy',0)}}" data-action="{{route('user.destroy',0)}}">
             @method('DELETE')
             @csrf
             <button type="submit" class="btn btn-danger">Eliminar</button>
@@ -95,7 +97,7 @@ $('#deleteModal').on('show.bs.modal', function (event) {
   // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
   // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
   var modal = $(this)
-  modal.find('.modal-title').text('Eliminarás el POST: ' + id)
+  modal.find('.modal-title').text('Eliminarás la categoria: ' + id)
 
   action = $('#formDelete').attr('data-action').slice(0,-1)
   action +=id
