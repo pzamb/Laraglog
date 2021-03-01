@@ -24,7 +24,7 @@ class PostController extends Controller
 
     public function index()
     {
-        $posts = Post::orderBy('created_at','desc')->simplePaginate(5);
+        $posts = Post::orderBy('created_at','desc')->simplePaginate(10);
         return view('dashboard.post.index',['posts'=>$posts]);
     }
 
