@@ -1,10 +1,5 @@
 @extends('web.master')
 @section('content')
-    @{{message}}
-
-    <div v-for="post in posts">
-        @{{post}}
-    </div>
-
-    @{{nombre}}
+    <post-list-component ></post-list-component>
+    <post-modal></post-modal>
 @endsection

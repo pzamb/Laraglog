@@ -8,14 +8,15 @@ require('./bootstrap');
 
 
 
-import { createApp } from 'vue' 
+import { createApp } from 'vue'
+import PostListComponent from './components/PostListComponent.vue'
+import PostModal from './components/PostModalComponent.vue'
 
-createApp({
-    data(){
-        return{
-            message: "Hello Vue!",
-            posts:['Título 1','Título 2','Título 3','Título 4','Título 5'],
-            nombre:"PEDRO"
-        }
+
+const App = {
+    components:{
+        PostListComponent,PostModal
     }
-}).mount('#app')
+}
+
+createApp(App).mount('#app')
