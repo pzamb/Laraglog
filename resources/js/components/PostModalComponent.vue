@@ -1,9 +1,9 @@
 <template>
-<div v-if="post" class="modal fade" id="postModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div v-if="post !== undefined" class="modal fade" id="postModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">{{post.title}}</h5>
+        <h3 class="modal-title font-weight-bold" id="exampleModalLabel">{{post.title}}</h3>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -12,8 +12,7 @@
         {{post.content}}
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" @click="clean" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
@@ -21,13 +20,17 @@
 </template>
 <script>
 export default {
-    created(){
-        console.log('Modal Created');
-        setTimeout(function(){},4000);
-    },
     props:['post'],
-    data(){
-
+    methods:{
+      clean: function()
+      {
+        this.$emit('closeModalPost');
+      }
+    },
+    watch :{
+      post: function(){
+        $('#postModal').modal("show");
+      }
     }
 }
 </script>
