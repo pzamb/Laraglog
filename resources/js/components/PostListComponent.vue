@@ -1,5 +1,6 @@
 <template>
     <div>
+        <router-link to="/example">ComponenteEx</router-link>
         <div class="card mt-4" v-for="post in posts" :key="post.title">
             <img :src="'/images/' + post.image" class="card-img-top" >
             <div class="card-body">
