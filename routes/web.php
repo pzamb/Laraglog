@@ -26,5 +26,7 @@ Route::post('dashboard/post/{post}/image',[PostController::class,'image'])->name
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/detail/{id}', [App\Http\Controllers\web\WebController::class, 'detail']);
+Route::get('/post-category/{id}', [App\Http\Controllers\web\WebController::class, 'post_category']);
 
 Route::get('/',[WebController::class,'index'])->name('index');

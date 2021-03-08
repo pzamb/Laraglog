@@ -1,6 +1,8 @@
 import {createWebHistory, createRouter} from 'vue-router';
 import PostList from './../components/PostListComponent.vue'
-import Example from './../components/ExampleComponent.vue'
+import PostDetail from './../components/PostDetailComponent.vue'
+import PostCategory from './../components/PostCategoryComponent.vue'
+
 
 const history = createWebHistory();
 const router = createRouter({
@@ -8,14 +10,21 @@ const router = createRouter({
     routes:[
         {
             path: '/',
-            name:'PostList',
-            component: PostList
+            component: PostList, 
+            name: 'list'
         },
         {
-            path: '/example',
-            name:'example',
-            component: Example
-        }       
+            path: '/detail/:id',
+            name:'detail',
+            component: PostDetail, 
+            props:true
+        },
+        {
+            path: '/post-category/:category_id',
+            name:'post-category',
+            component: PostCategory, 
+            props:true
+        }
     ]
 })
 

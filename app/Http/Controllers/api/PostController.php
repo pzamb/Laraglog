@@ -33,7 +33,7 @@ class PostController extends ApiResponseController
 
     public function url_clean(String $url_clean)
     {
-        $post = Post::where('url_clean',$url_clean)->firstOrFail ();
+        $post = Post::where('url_clean',$url_clean)->firstOrFail();
         $post->category;
         $post->image;
         return $this->successResponse($post);
@@ -41,6 +41,13 @@ class PostController extends ApiResponseController
     
     public function category(Category $category)
     {
-        return $this->successResponse(["posts" => $category->post()->paginate(10),"category" => $category]);
+        $posts = Post::
+        join('post_images','post_images.post_id','=','posts.id')->
+        join('categories','categories.id','=','posts.category_id')->
+        select('posts.*','categories.title as category','post_images.image as imagen')->
+        orderBy('posts.created_at','desc')->
+        where('categories.id',$category->id)
+        ->simplePaginate(5);
+        return $this->successResponse(["posts" => $posts,"category" => $category]);
     }
 }
