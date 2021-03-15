@@ -30,3 +30,7 @@ Route::get('/detail/{id}', [App\Http\Controllers\web\WebController::class, 'deta
 Route::get('/post-category/{id}', [App\Http\Controllers\web\WebController::class, 'post_category']);
 
 Route::get('/',[WebController::class,'index'])->name('index');
+
+Route::get('/contact',[WebController::class,'contact'])->name('contact');
+
+Route::get('/categories',[WebController::class,'index'])->name('categories');

@@ -8,16 +8,20 @@
     <title>Mòdulo Admin</title>
     <style>
         body{
-            background-color: darkslategray;
         }
     </style>
 </head>
 <body>
-    @include('web.partials.nav-header-main')
-    <div class="container" id="app">
-        @yield('content')
+
+    <div id="app">
+        @include('web.partials.nav-header-main')
+
+        <div class="container mb-3 mt-3">
+            @yield('content')
+        </div>
+
+        @include('web.partials.footer-main')
     </div>
-    @include('web.partials.footer-main')
     <script src="{{asset("js/app.js")}}"></script>
 </body>
 </html>

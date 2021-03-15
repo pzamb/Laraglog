@@ -7,10 +7,17 @@
             <small class="text-danger">{{$message}}</small>
         @enderror
     </div>
+    @if (Request::path() == 'dashboard/post/create')
     <div class="form-group">
         <label for="url_clean">URL Limpia:</label>
         <input class="form-control" type="text" name="url_clean" id="url_clean" value="{{old('url_clean',$post->url_clean)}}">
     </div>
+    @else
+    <div class="form-group">
+        <label for="url_clean">URL Limpia:</label>
+        <input class="form-control" type="text" name="url_clean" id="url_clean" value="{{old('url_clean',$post->url_clean)}}" readonly>
+    </div>
+    @endif
 
     <div class="form-group">
         <label for="category_id">Categorias</label>
