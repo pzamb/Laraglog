@@ -17,6 +17,8 @@ class DatabaseSeeder extends Seeder
             CategoryTableSeeder::class,
             PostTableSeeder::class,
             PostImageTableSeeder::class,
+            ContactTableSeeder::class,
+            PostCommentsTableSeeder::class
         ]);
     }
 }

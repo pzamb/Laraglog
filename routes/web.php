@@ -4,7 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\web\WebController;
 use App\Http\Controllers\dashboard\PostController;
 use App\Http\Controllers\dashboard\UserController;
+use App\Http\Controllers\dashboard\ContactController;
 use App\Http\Controllers\dashboard\CategoryController;
+use App\Http\Controllers\dashboard\PostCommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,3 +36,10 @@ Route::get('/',[WebController::class,'index'])->name('index');
 Route::get('/contact',[WebController::class,'contact'])->name('contact');
 
 Route::get('/categories',[WebController::class,'index'])->name('categories');
+
+Route::resource('dashboard/contact', ContactController::class)->only(['index','show','destroy']);
+
+Route::resource('dashboard/post-comment', PostCommentController::class)->only(['index','show','destroy']);
+
+Route::get('dashboard/post-comment/{post}/post', [PostCommentController::class, 'post'])->name('post-comment.post');
+
