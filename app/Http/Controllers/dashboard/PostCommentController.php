@@ -47,6 +47,11 @@ class PostCommentController extends Controller
         return view('dashboard.post-comment.show',['postComment'=>$postComment]);
     }
 
+    public function jshow(PostComment $postComment)
+    {
+        return response()->json($postComment);
+    }
+
     /**
      * Remove the specified resource from storage.
      *

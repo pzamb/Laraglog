@@ -42,4 +42,6 @@ Route::resource('dashboard/contact', ContactController::class)->only(['index','s
 Route::resource('dashboard/post-comment', PostCommentController::class)->only(['index','show','destroy']);
 
 Route::get('dashboard/post-comment/{post}/post', [PostCommentController::class, 'post'])->name('post-comment.post');
+Route::get('dashboard/post-comment/j-show/{postComment}', [PostCommentController::class, 'jshow']);
+
 

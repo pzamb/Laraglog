@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Rol;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -47,4 +48,15 @@ class User extends Authenticatable
     public function rol(){
         return $this->belongsTo(Rol::class);
     } 
+    /*
+
+    public function getNameAttribute($value){
+        return $this->attributes['name'];
+    }
+    */
+
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] = Hash::make($value);
+    }
 }
