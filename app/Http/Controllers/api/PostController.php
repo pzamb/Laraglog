@@ -28,6 +28,7 @@ class PostController extends ApiResponseController
     {
         $post->category;
         $post->image;
+        $post->images;
         return $this->successResponse($post);
     }
 

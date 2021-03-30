@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Rol;
+use App\Models\Tag;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -47,7 +48,11 @@ class User extends Authenticatable
 
     public function rol(){
         return $this->belongsTo(Rol::class);
-    } 
+    }
+
+    public function tags(){
+        return $this->morphToMany(Tag::class,'taggable');
+    }
     /*
 
     public function getNameAttribute($value){

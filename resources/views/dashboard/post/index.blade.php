@@ -3,6 +3,18 @@
 @section('content')
 
 <a class="btn btn-success mt-3 mb-3" href="{{route('post.create')}}">Crear</a>
+
+<form action="{{route('post.index')}}" class="form-inline mb-4">
+    <select name="created_at" id="" class="form-control">
+        <option value="DESC">Descendente</option>
+        <option {{request('created_at') == 'ASC' ? 'selected' : ''}} value="ASC">Ascendente</option>
+    </select>
+
+    <input value="{{request('search')}}" type="text" name="search" placeholder="Buscar..." class="form-control ml-1">
+    <button type="submit" class="btn btn-success ml-1">BUSCAR</button>
+</form>
+
+
 <table class="table">
     <thead>
         <tr>
@@ -61,7 +73,11 @@
     </tbody>
 </table>
 
-{{$posts->links()}}
+{{$posts->appends(
+    [
+        'created_at' =>request('created_at'),
+        'search' =>request('search'),
+])->links()}}
 
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">

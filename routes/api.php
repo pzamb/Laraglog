@@ -16,6 +16,7 @@ use App\Http\Controllers\api\CategoryController;
 |
 */
 
+
 Route::resource('post', PostController::class)->only(['index', 'show']);
 
 Route::get('post/{category}/category', [PostController::class, 'category']);

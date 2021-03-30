@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Post;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class PostImage extends Model
@@ -15,4 +16,8 @@ class PostImage extends Model
     public function post(){
         return $this->belongsTo(Post::class);
     }   
+
+    public function getImageUrl(){
+        return Storage::url($this->image);
+    }
 }

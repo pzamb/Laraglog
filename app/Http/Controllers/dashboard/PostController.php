@@ -2,53 +2,50 @@
 
 namespace App\Http\Controllers\dashboard;
 
+use App\Models\Tag;
 use App\Models\Post;
 use App\Models\Category;
 use App\Models\PostImage;
 use App\Helpers\CustomUrl;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePostPost;
 use App\Http\Requests\UpdatePostPut;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
 
     public function __construct()
     {
         $this->middleware(['auth','rol.admin']);
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $posts = Post::orderBy('created_at','desc')->simplePaginate(10);
+        $posts = Post::with('category')
+        ->orderBy('created_at',request('created_at','DESC'));
+
+        if($request->has('search'))
+        {
+            $posts = $posts->where('title','like','%'.request('search').'%');
+        }
+        $posts = $posts->simplePaginate(10);
         return view('dashboard.post.index',['posts'=>$posts]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-       $categories = Category::pluck('id','title');
-       return view('dashboard.post.create',['post' => new Post(),'categories'=>$categories]);
+        $tags = Tag::pluck('id','title');
+        $categories = Category::pluck('id','title');
+        $post = new Post();
+        return view('dashboard.post.create',compact('post', 'categories', 'tags'));
 
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(StorePostPost $request)
     {
         if($request->url_clean == ''){
@@ -67,31 +64,22 @@ class PostController extends Controller
                         ->withInput();
         }
 
-        Post::create($requestData);
+        $post = Post::create($requestData);
+        $post->tags()->sync($request->tags_id);
+
         return back()->with('Maquina','POST CREADO CON EXITO');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show(Post $post)
     {
         return view('dashboard.post.show',['post'=>$post]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Post $post)
     {
+        $tags = Tag::pluck('id','title');
         $categories = Category::pluck('id','title');
-        return view('dashboard.post.edit',['post'=>$post, 'categories'=>$categories]);
+        return view('dashboard.post.edit',compact('post', 'categories', 'tags'));
     }
 
     public function image(Request $request,Post $post){
@@ -101,31 +89,30 @@ class PostController extends Controller
         ]);
 
         $filename = time() . "." . $request->image->extension();
-        $request->image->move(public_path('images'), $filename);
+        //$request->image->move(public_path('images'), $filename);
+        $path = $request->image->store('public/images');
 
-        PostImage::create(['image'=> $filename, 'post_id' => $post->id ]);
+        PostImage::create(['image'=> $path, 'post_id' => $post->id ]);
         return back()->with('Maquina','Imagen subida con éxito');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    public function imageDownload(PostImage $image){
+        return Storage::disk('local')->download($image->image);
+    }
+
+    public function imageDelete(PostImage $image){
+        $image->delete();
+        Storage::disk('local')->delete($image->image);
+        return back()->with('Maquina','IMAGEN ELIMINADA');
+    } 
+
     public function update(UpdatePostPut $request, Post $post)
     {
+        $post->tags()->sync($request->tags_id);
         $post->update($request->validated());
         return back()->with('Maquina','POST ACTUALIZADO CON ÉXITO');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Post $post)
     {
         $post->delete();

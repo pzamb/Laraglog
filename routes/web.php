@@ -25,6 +25,9 @@ Route::resource('dashboard/category', CategoryController::class);
 Route::resource('dashboard/user', UserController::class);
 
 Route::post('dashboard/post/{post}/image',[PostController::class,'image'])->name('post.image');
+Route::get('dashboard/post/image-download/{image}',[PostController::class,'imageDownload'] )->name('post.image-download');
+Route::delete('dashboard/post/image-delete/{image}',[PostController::class,'imageDelete'] )->name('post.image-delete');
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

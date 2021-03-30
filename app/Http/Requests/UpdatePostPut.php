@@ -30,7 +30,8 @@ class UpdatePostPut extends FormRequest
             'url_clean' => 'max:500',
             'content' => 'required|min:5',
             'category_id' =>'required',
-            'posted' =>'required'
+            'posted' =>'required',
+            'tags_id' => 'required'
         ];
     }
 }

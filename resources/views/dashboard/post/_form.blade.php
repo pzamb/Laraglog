@@ -36,6 +36,15 @@
     </div>
 
     <div class="form-group">
+        <label for="category_id">Etiquetas</label>
+        <select multiple name="tags_id[]" class="form-control" id="tags_id">
+            @foreach ($tags as $title => $id)
+                <option {{in_array($id, old('tags_id') ? : $post->tags->pluck('id')->toArray()) ? "selected" : ''}} value="{{$id}}">{{$title}}</option>
+            @endforeach
+        </select>
+    </div>
+
+    <div class="form-group">
         <label for="content">Contenido</label>
         <textarea class="form-control" type="text" name="content" id="content" rows="3" >{{old('content',$post->content)}}</textarea>
     </div>

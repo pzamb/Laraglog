@@ -16877,7 +16877,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
   var _component_router_link = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("router-link");
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", null, [$data.post ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("img", {
-    src: '/images/' + $data.post.image.image,
+    src: $data.post.image.image,
     "class": "card-img-top"
   }, null, 8
   /* PROPS */
@@ -16979,7 +16979,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
       "class": "card mt-4 mb-5",
       key: post.title
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("img", {
-      src: '/images/' + post.imagen,
+      src: post.imagen,
       "class": "card-img-top"
     }, null, 8
     /* PROPS */
