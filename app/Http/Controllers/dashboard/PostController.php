@@ -9,9 +9,8 @@ use App\Models\PostImage;
 use App\Helpers\CustomUrl;
 use Illuminate\Http\Request;
 use App\Jobs\ProcessImageSmall;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePostPost;
 use App\Http\Requests\UpdatePostPut;
@@ -29,6 +28,9 @@ class PostController extends Controller
 
     public function index(Request $request)
     {
+
+        Log::warning('Error para el usuario 1',['id' => 5]);
+
         $posts = Post::with('category')
         ->orderBy('created_at',request('created_at','DESC'));
 
@@ -101,7 +103,7 @@ class PostController extends Controller
     }
 
     public function imageDownload(PostImage $image){
-        return Storage::disk('local')->download($image->image);
+        //return Storage::disk('local')->download($image->image);
     }
 
     public function imageDelete(PostImage $image){

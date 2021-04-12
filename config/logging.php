@@ -96,6 +96,13 @@ return [
             'handler' => NullHandler::class,
         ],
 
+        'custom' =>[
+            'driver' => 'single',
+            'path' => storage_path('logs/custom.log'),
+            'level' => 'warning',
+            'tap' => [App\Logging\CustomFormatter::class]
+        ],
+
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
         ],
