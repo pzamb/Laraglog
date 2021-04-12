@@ -64,4 +64,8 @@ class User extends Authenticatable
     {
         $this->attributes['password'] = Hash::make($value);
     }
+
+    public function isAdmin(){
+        return $this->rol->key == 'admin';
+    }
 }

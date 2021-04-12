@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\web\WebController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\dashboard\PostController;
 use App\Http\Controllers\dashboard\UserController;
 use App\Http\Controllers\dashboard\ContactController;
@@ -30,7 +31,7 @@ Route::delete('dashboard/post/image-delete/{image}',[PostController::class,'imag
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('check.age');
 Route::get('/detail/{id}', [App\Http\Controllers\web\WebController::class, 'detail']);
 Route::get('/post-category/{id}', [App\Http\Controllers\web\WebController::class, 'post_category']);
 

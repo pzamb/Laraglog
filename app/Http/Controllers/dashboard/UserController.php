@@ -12,11 +12,7 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function __construct()
     {
         $this->middleware(['auth','rol.admin']);
@@ -28,67 +24,42 @@ class UserController extends Controller
         return view('dashboard.user.index',['users'=>$users]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('dashboard.user.create',['user' => new User()]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    
     public function store(StoreUserPost $request)
     {
         User::create(
-        [
-            'name' => $request['name'],
-            'rol_id' => 1,
-            'surname' => $request['surname'],
-            'email' => $request['email'],
-            'password' => $request['password'],
-        ]
-    );
+            [
+                'name' => $request['name'],
+                'rol_id' => 1,
+                'surname' => $request['surname'],
+                'email' => $request['email'],
+                'password' => $request['password'],
+            ]
+        );
         return back()->with('Maquina','Usuario CREADO CON EXITO');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
     public function show(User $user)
     {
         return view('dashboard.user.show',['user'=>$user]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
     public function edit(User $user)
     {
+        $this->authorize('edit',$user);
         return view('dashboard.user.edit',['user'=>$user]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
     public function update(UpdateUserPut $request, User $user)
     {
+
+        $this->authorize('update',$user);
+
         $user->update(
             [
                 'name' => $request['name'],
@@ -99,15 +70,10 @@ class UserController extends Controller
         return back()->with('Maquina','USUARIO ACTUALIZADO CON ÉXITO');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $user->delete();
         return back()->with('Maquina','OBJETIVO ELIMINADO');
     }
+
 }

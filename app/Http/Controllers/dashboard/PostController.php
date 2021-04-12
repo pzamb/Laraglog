@@ -8,8 +8,10 @@ use App\Models\Category;
 use App\Models\PostImage;
 use App\Helpers\CustomUrl;
 use Illuminate\Http\Request;
+use App\Jobs\ProcessImageSmall;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\App;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePostPost;
 use App\Http\Requests\UpdatePostPut;
@@ -22,6 +24,7 @@ class PostController extends Controller
     public function __construct()
     {
         $this->middleware(['auth','rol.admin']);
+        App::setLocale('es');
     }
 
     public function index(Request $request)
@@ -89,10 +92,11 @@ class PostController extends Controller
         ]);
 
         $filename = time() . "." . $request->image->extension();
-        //$request->image->move(public_path('images'), $filename);
-        $path = $request->image->store('public/images');
+        $request->image->move(public_path('images'), $filename);
 
-        PostImage::create(['image'=> $path, 'post_id' => $post->id ]);
+        $image = PostImage::create(['image'=> $filename, 'post_id' => $post->id ]);
+
+        ProcessImageSmall::dispatch($image);
         return back()->with('Maquina','Imagen subida con éxito');
     }
 
