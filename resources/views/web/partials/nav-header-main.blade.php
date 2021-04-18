@@ -1,0 +1,43 @@
+<nav class="navbar navbar-expand-lg bg-secondary navbar-light ">
+    <router-link class="navbar-brand font-weight-bold border border-dark p-2 rounded bg-light" to="/" >BLOG</router-link>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <router-link class="navbar-brand font-weight-bold border border-dark p-2 rounded bg-light" to="/" >HOME</router-link>
+        </li>
+        <li class="nav-item">
+          <router-link class="navbar-brand font-weight-bold border border-dark p-2 rounded bg-light" to="/categories" >CATEGORIAS</router-link>
+        </li>
+      </ul>
+
+      <ul class="navbar-nav">
+        <li class="nav-item active mr-2">
+
+
+            <a class="dropdown-item font-weight-bold border border-dark p-2 rounded bg-light" href="{{ route('logout') }}"
+                  onclick="event.preventDefault();
+                  document.getElementById('logout-form').submit();">
+                  {{ __('Logout') }}
+            </a>
+
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                  @csrf
+            </form>
+
+            
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle font-weight-bold border border-dark p-2 rounded bg-light" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Perfil
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item " href="">Perfil</a>
+            </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
