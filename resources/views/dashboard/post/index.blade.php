@@ -1,14 +1,8 @@
 @extends('dashboard.master')
 
 @section('content')
-
+<x-ejemplo message="Listado de POSTS"></x-ejemplo>
 <a class="btn btn-success mt-3 mb-3" href="{{route('post.create')}}">Crear</a>
-
-<span><i class="fas fa-plus"></i></span>
-<i class="fa fa-copy"></i>
-<i class="fa fa-save"></i>
-<i class="fa fa-trash"></i>
-<i class="fa fa-home"></i>
 
 <form action="{{route('post.index')}}" class="form-inline mb-4">
     <select name="created_at" id="" class="form-control">
