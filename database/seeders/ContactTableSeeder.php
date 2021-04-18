@@ -20,6 +20,7 @@ class ContactTableSeeder extends Seeder
             Contact::create([
                 'name' => "Conan $i",
                 'surname' => "Cors $i",
+                'phone' => '609234344',
                 'message' => 'Content PARA ESTE POST',
                 'email' => 'pedro@gmail.com',
             ]);

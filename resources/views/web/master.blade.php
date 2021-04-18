@@ -16,11 +16,11 @@
     <div id="app">
         @include('web.partials.nav-header-main')
 
-        <div class="container mb-3 mt-3">
+        <div class="container mb-3 mt-4">
             @yield('content')
         </div>
 
-        @include('web.partials.footer-main')
+        {{-- @include('web.partials.footer-main') --}}
     </div>
     <script src="{{asset("js/app.js")}}"></script>
 </body>

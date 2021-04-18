@@ -1,74 +1,103 @@
 <template>
-    <div class="col-8 offset-2" >
-        <div class="card mt-4">
+    <div class="col-8 offset-2">
+        <div class="card">
             <div class="card-header">
-                <img src="/images/raven.png" id="logo" class="mx-auto d-block">
+                <h3 class="font-weight-bold mt-2">Contáctame</h3>
             </div>
             <div class="card-body">
-
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">Nombre</span>
+                <form @submit.prevent="onSubmit">
+                    <base-input :validator="v$.form.name" label="Nombre" v-model="v$.form.name.$model"></base-input>
+                    <base-input :validator="v$.form.surname" label="Apellido" v-model="v$.form.surname.$model"></base-input>
+                    <base-input :validator="v$.form.email" label="Email" type="text" v-model="v$.form.email.$model"></base-input>
+                    <base-input :validator="v$.form.phone" label="Teléfono" mask="(+34) ###-###-###" v-model="v$.form.phone.$model"></base-input>
+                    <div class="form-group">
+                        <textarea v-model="v$.form.content.$model" class="form-control" :class="{'is-invalid':v$.form.content.$error, 'is-valid':!v$.form.content.$invalid }" rows="3"></textarea>
                     </div>
-                    <input type="text" class="form-control" v-model="name">
-                </div>
-
-                <div class="input-group mt-3" >
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">Apellido</span>
-                    </div>
-                    <input type="text" class="form-control" v-model="surname">
-                </div>
-
-                <div class="input-group mt-3" >
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">Email</span>
-                    </div>
-                    <input type="text" class="form-control" v-model="email">
-                </div>
-
-                <div class="input-group mt-3" >
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">Content</span>
-                    </div>
-                    <textarea class="form-control" name="" id="" cols="30" rows="10" v-model="content"></textarea>                
-                </div>
-
-                <button @click="saveContact()" class="btn btn-primary mt-4 btn-lg mx-auto d-block">Enviar</button>
-
+                    <el-button type="danger" @click="resetForm" icon="el-icon-refresh-left"></el-button>
+                    <el-button native-type="submit" type="info" :disabled="formValid" class="ml-2" icon="el-icon-message">ENVIAR</el-button>
+                </form>
             </div>
         </div>
     </div>
 </template>
-
 <script>
+import useValidate from '@vuelidate/core'
+import {required, email,minLength} from "@vuelidate/validators"
+import BaseInput from './BaseInput'
 export default {
+    components:{BaseInput},
+    validations(){
+        return{
+            form:{
+                name:{required},
+                surname : {required},
+                email : {required,email},
+                phone: {
+                        required,
+                        minLength: minLength(17)
+                    },
+                content: {required}
+            }
+        }
+    },
     data(){
         return{
-            name:'',
-            surname: '',
-            email: '',
-            content: ''
+            v$ : useValidate(),
+            form:{
+                name :'',
+                surname : '',
+                email : '',
+                phone: '',
+                content: ''
+            },
         }
     },
     methods:{
-        saveContact(){
-            console.log(this.name)
-            console.log(this.surname)
-            console.log(this.email)
-            console.log(this.content)
+        onSubmit(){
+            if(!this.formValid)
+            {
+                axios.post('/api/contact',{
+                    name : this.v$.form.name.$model,
+                    surname : this.v$.form.surname.$model,
+                    email : this.v$.form.email.$model,
+                    phone : this.v$.form.phone.$model,
+                    message : this.v$.form.content.$model
+                }).then(function(response){
+                    console.log(response.data)
+                })
+
+                this.resetForm()
+                this.created()
+            }
+        },
+        resetForm(){
+            this.v$.form.name.$model = ""
+            this.v$.form.surname.$model = ""
+            this.v$.form.email.$model = ""
+            this.v$.form.phone.$model = ""
+            this.v$.form.content.$model = ""
+            this.v$.$reset()
+            this.reseted()
+        },
+        created() {
+            this.$notify({
+                title: 'Éxito',
+                message: 'Contacto Creado Correctamente',
+                type: 'success'
+            });
+        },
+        reseted(){
+            this.$notify({
+                title: 'Éxito',
+                message: 'Los campos han sido limpiados',
+                type: 'info'
+            });
         }
     },
-    created(){
-
+    computed : {
+        formValid(){
+            return this.v$.$invalid
+        }
     }
-    
 }
 </script>
-
-<style scoped>
-img{
-    width: 200px;
-    height: 200px;
-}
-</style>
